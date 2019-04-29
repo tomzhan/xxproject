@@ -3,7 +3,7 @@ version: "2.2"
 services:
   # ELK
   elasticsearch:
-    image: elasticsearch:5.3.0
+    image: elasticsearch:5.6.9-alpine
     ports:
       - ${ES_SERVER_PORT}:${ES_SERVER_PORT}
     networks:
@@ -20,7 +20,7 @@ services:
       retries: 10
 
   kibana:
-    image: kibana:5.3.0
+    image: kibana:5.6.9
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -39,7 +39,7 @@ services:
       retries: 10
 
   logstash:
-    image: pblittle/docker-logstash:latest
+    image: logstash:5.6.9-alpine
     depends_on:
       kibana:
         condition: service_healthy
