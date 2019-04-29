@@ -14,7 +14,7 @@ services:
       - xpack.security.enabled=false
       - ES_JAVA_OPTS=${ES_JAVA_OPTS}
     healthcheck:
-      test: curl -f http://localhost:${ES_SERVER_PORT}
+      test: curl -f http://192.168.1.102:${ES_SERVER_PORT}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -33,13 +33,13 @@ services:
     environment:
       - xpack.security.enabled=false
     healthcheck:
-      test: curl -f http://localhost:${KIBANA_SERVER_PORT}
+      test: curl -f http://192.168.1.102:${KIBANA_SERVER_PORT}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:5.2.2
+    image: pblittle/docker-logstash:latest
     depends_on:
       kibana:
         condition: service_healthy
@@ -56,7 +56,7 @@ services:
     environment:
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     healthcheck:
-      test: curl -f http://localhost:${LOGSTASH_SERVER_PORT}
+      test: curl -f http://192.168.1.102:${LOGSTASH_SERVER_PORT}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -77,7 +77,7 @@ services:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
     healthcheck:
-      test: nc -v -w 5 -z localhost ${RABBITMQ_PORT}
+      test: nc -v -w 5 -z 192.168.1.102 ${RABBITMQ_PORT}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -92,7 +92,7 @@ services:
     env_file:
       - bootstrap.env
     healthcheck:
-      test: nc -v -w 5 -z localhost ${REDIS_SERVER_PORT}
+      test: nc -v -w 5 -z 192.168.1.102 ${REDIS_SERVER_PORT}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -160,7 +160,7 @@ services:
       - SPRING_PROFILES_ACTIVE=default,native,docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     healthcheck:
-      test: nc -v -w 5 -z localhost ${CONFIG_SERVER_PORT}
+      test: nc -v -w 5 -z 192.168.1.102 ${CONFIG_SERVER_PORT}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -183,7 +183,7 @@ services:
       - SPRING_CLOUD_CONFIG_PROFILE=eureka01,eureka01-docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     healthcheck:
-      test: nc -v -w 5 -z localhost ${SERVER_PORT_EUREKA01}
+      test: nc -v -w 5 -z 192.168.1.102 ${SERVER_PORT_EUREKA01}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -207,7 +207,7 @@ services:
       - SPRING_CLOUD_CONFIG_PROFILE=eureka02,eureka02-docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     healthcheck:
-      test: nc -v -w 5 -z localhost ${SERVER_PORT_EUREKA02}
+      test: nc -v -w 5 -z 192.168.1.102 ${SERVER_PORT_EUREKA02}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -240,7 +240,7 @@ services:
       - SPRING_CLOUD_CONFIG_PROFILE=docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     healthcheck:
-      test: nc -v -w 5 -z localhost ${ZIPKIN_SERVER_PORT}
+      test: nc -v -w 5 -z 192.168.1.102 ${ZIPKIN_SERVER_PORT}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -263,7 +263,7 @@ services:
       - SPRING_CLOUD_CONFIG_PROFILE=docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     healthcheck:
-      test: nc -v -w 5 -z localhost ${AUTH_SERVER_PORT}
+      test: nc -v -w 5 -z 192.168.1.102 ${AUTH_SERVER_PORT}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -291,7 +291,7 @@ services:
       - SPRING_CLOUD_CONFIG_PROFILE=docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS_CLIENT_STORE} 
     healthcheck:
-      test: nc -v -w 5 -z localhost ${ZUUL_SERVER_PORT}
+      test: nc -v -w 5 -z 192.168.1.102 ${ZUUL_SERVER_PORT}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -316,7 +316,7 @@ services:
       - SPRING_CLOUD_CONFIG_PROFILE=docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     healthcheck:
-      test: nc -v -w 5 -z localhost ${TURBINE_SERVER_PORT}
+      test: nc -v -w 5 -z 192.168.1.102 ${TURBINE_SERVER_PORT}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -340,7 +340,7 @@ services:
       - SPRING_CLOUD_CONFIG_PROFILE=docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     healthcheck:
-      test: nc -v -w 5 -z localhost ${HYSTRIX_DASHBOARD_SERVER_PORT}
+      test: nc -v -w 5 -z 192.168.1.102 ${HYSTRIX_DASHBOARD_SERVER_PORT}
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -362,7 +362,7 @@ services:
       - SPRING_CLOUD_CONFIG_PROFILE=docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     healthcheck:
-      test: nc -v -w 5 -z localhost 8080
+      test: nc -v -w 5 -z 192.168.1.102 8083
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -383,7 +383,7 @@ services:
       - SPRING_CLOUD_CONFIG_PROFILE=docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     healthcheck:
-      test: nc -v -w 5 -z localhost 8080
+      test: nc -v -w 5 -z 192.168.1.102 8083
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -404,7 +404,7 @@ services:
       - SPRING_CLOUD_CONFIG_PROFILE=docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS}
     healthcheck:
-      test: nc -v -w 5 -z localhost 8080
+      test: nc -v -w 5 -z 192.168.1.102 8083
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -427,7 +427,7 @@ services:
       - SPRING_CLOUD_CONFIG_PROFILE=docker
       - JAVA_TOOL_OPTIONS=${JAVA_TOOL_OPTIONS_CLIENT_STORE} 
     healthcheck:
-      test: nc -v -w 5 -z localhost 8080
+      test: nc -v -w 5 -z 192.168.1.102 8083
       interval: ${INTERVAL}
       timeout: ${TIMEOUT}
       retries: 10
@@ -459,8 +459,8 @@ volumes:
 #volumes:
 #      - "/var/run/docker.sock:/var/run/docker.sock"
 #      - db-data:/var/lib/postgresql/data
-#test: ["CMD", "nc", "-v", "-w", "5", "-z", "localhost", "${CONFIG_SERVER_PORT}"]
-#test: ["CMD-SHELL", "nc -v -w 5 -z localhost ${CONFIG_SERVER_PORT}"]
+#test: ["CMD", "nc", "-v", "-w", "5", "-z", "192.168.1.102", "${CONFIG_SERVER_PORT}"]
+#test: ["CMD-SHELL", "nc -v -w 5 -z 192.168.1.102 ${CONFIG_SERVER_PORT}"]
 #restart: on-failure/none/always
 ############################################################
 
